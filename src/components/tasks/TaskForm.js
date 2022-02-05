@@ -40,11 +40,6 @@ const TaskForm = () => {
     })
   }
 
-  
-
-  
-
-
   if(!project) return null;
 
   const [currentProject] = project;
@@ -59,8 +54,7 @@ const TaskForm = () => {
 
     if(selectedTask === null){
     // adding task
-    task.projectId = currentProject.id;
-    task.state = false;
+    task.project = currentProject._id;
     addTask(task)
        
     } else {
@@ -92,7 +86,7 @@ const TaskForm = () => {
         </div>
         <div className='container-input'>
             <input type='submit' className='btn btn-primary btn-submit btn-block' 
-            value={selectedTask? "Edit Task"  : "Add Task" }/>
+            value={ selectedTask ? "Edit Task"  : "Add Task" }/>
         </div>
       </form>
       {taskError ? <p className="message error">A name is required</p> :null}

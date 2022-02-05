@@ -8,6 +8,7 @@ const PrivateRoute = ({children}) => {
 
   useEffect(()=> {
     authUser();
+    //eslint-disable-next-line
   }, [])
 
     return !auth  && !loading ? <Navigate to="/"/> : children 

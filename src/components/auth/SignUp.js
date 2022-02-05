@@ -21,7 +21,7 @@ const SignUp = props => {
      }
      if(message) {
         showAlert(message.msg, message.category)
-     }
+     }//eslint-disable-next-line
     }, [message, auth, navigate]);
     
 

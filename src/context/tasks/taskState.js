@@ -1,48 +1,56 @@
 import { useReducer } from 'react'
 import TaskContext from './taskContext'
 import TaskReducer from './taskReducer'
-import {v4 as uuidv4} from 'uuid'
+import clientAxios from '../../config/axios'
+
 import { TASKS_PROJECT, ADD_TASK,
-    VALIDATE_TASK, DELETE_TASK, STATE_TASK,
+    VALIDATE_TASK, DELETE_TASK,
     CURRENT_TASK, UPDATE_TASK, CLEAR_TASK } from '../../types'
 
 const TaskState = props => {
 
     const initialState ={
-        tasks:[
-            {id:1, name: 'Choose Colors', state: false, projectId:2},
-            {id:2, name: 'Choose Platform', state: true, projectId:1},
-            {id:3, name: 'Choose Hosting', state: false, projectId:3},
-            {id:4, name: 'Choose Payments', state: true, projectId:4},
-            {id:5, name: 'Choose Platform', state: true, projectId:1},
-            {id:6, name: 'Choose Colors', state: false, projectId:2},
-            {id:7, name: 'Choose Hosting', state: false, projectId:3},
-            {id:8, name: 'Choose Payments', state: true, projectId:4},
-            {id:9, name: 'Choose Colors', state: false, projectId:2},
-            {id:10, name: 'Choose Hosting', state: false, projectId:3},
-            {id:11, name: 'Choose Payments', state: true, projectId:4},
-        ],
-        tasksProject:null,
+        tasksProject:[],
         taskError: false,
-        selectedTask: {},
+        selectedTask: null,
     }
 
     const [state, dispatch] = useReducer(TaskReducer, initialState)
 
 
-    const getTasks = projectId => {
-        dispatch({
-            type: TASKS_PROJECT,
-            payload: projectId,
-        })
+    const getTasks = async project => {
+
+        try {
+            const result = await clientAxios.get('/api/tasks', {params: {project}})
+            
+            dispatch({
+                type: TASKS_PROJECT,
+                payload: result.data.tasks,
+            })
+            
+        } catch (error) {
+            console.log(error)
+        }
+
+        
     }
 
-    const addTask = task => {
-        task.id = uuidv4();
-        dispatch({
-            type:ADD_TASK,
-            payload: task,
-        })
+    const addTask = async task => {
+        
+        try {
+            const result = await clientAxios.post('/api/tasks', task)
+            console.log(result)
+            dispatch({
+                type:ADD_TASK,
+                payload: task,
+            })
+
+            
+        } catch (error) {
+            console.log(error)
+        }
+
+        
     }
 
     const validateTask = () => {
@@ -51,19 +59,37 @@ const TaskState = props => {
         })
     }
 
-    const deleteTask = id => {
-        dispatch({
-            type: DELETE_TASK,
-            payload: id,
-        })
+    const deleteTask = async (id, project) => {
+
+        try {
+            await clientAxios.delete(`/api/tasks/${id}`, {params:{project}})
+            dispatch({
+                type: DELETE_TASK,
+                payload: id,
+            })
+            
+        } catch (error) {
+            
+        }
+
+        
     }
 
-    const changeTaskState = task => {
-        dispatch({
-            type:STATE_TASK,
-            payload:task,
-        })
+    const updateTask = async task => {
+
+        try {
+            
+            const result = await clientAxios.put(`/api/tasks/${task._id}`, task)
+            
+            dispatch({
+                type: UPDATE_TASK,
+                payload: result.data.task,
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
+
 
     const setCurrentTask = task => {
         dispatch({
@@ -72,12 +98,6 @@ const TaskState = props => {
         })
     }
 
-    const updateTask = task => {
-        dispatch({
-            type: UPDATE_TASK,
-            payload: task,
-        })
-    }
 
     const clearTask = () => {
         dispatch({
@@ -88,7 +108,6 @@ const TaskState = props => {
     return (
         <TaskContext.Provider
         value={{
-            tasks:state.tasks,
             tasksProject:state.tasksProject,
             taskError: state.taskError,
             selectedTask:state.selectedTask,
@@ -96,7 +115,6 @@ const TaskState = props => {
             addTask,
             validateTask,
             deleteTask,
-            changeTaskState,
             setCurrentTask,
             updateTask,
             clearTask,
