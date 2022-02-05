@@ -13,3 +13,13 @@ export const STATE_TASK = 'STATE_TASK';
 export const CURRENT_TASK = 'CURRENT_TASK';
 export const UPDATE_TASK = 'UPDATE_TASK';
 export const CLEAR_TASK = 'CLEAR_TASK';
+
+export const SHOW_ALERT = 'SHOW_ALERT';
+export const HIDE_ALERT = 'HIDE_ALERT';
+
+export const SUCCESSFUL_REGISTRATION = "SUCCESSFUL_REGISTRATION";
+export const ERROR_REGISTRATION = "ERROR_REGISTRATION";
+export const GET_USER = "GET_USER";
+export const SUCCESSFUL_LOGIN = "SUCCESSFUL_LOGIN";
+export const ERROR_LOGIN = "ERROR_LOGIN";
+export const LOG_OUT= "LOG_OUT";

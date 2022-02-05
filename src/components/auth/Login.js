@@ -1,7 +1,27 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AlertContext from "../../context/alerts/alertsContext";
+import AuthContext from "../../context/auth/authContext";
+const Login = (props) => {
 
-const Login = () => {
+    const alertContext = useContext(AlertContext)
+    const {alert, showAlert} = alertContext
+
+    const authContext = useContext(AuthContext);
+    const { message, auth, signIn } = authContext
+
+    let navigate = useNavigate();
+
+    //validation of email and password
+
+    useEffect(() => {
+        if(auth) {
+            navigate('/projects');
+        }
+        if(message) {
+           showAlert(message.msg, message.category)
+        }
+       }, [message, auth, navigate]);
 
     const [user, SetUser] = useState({
         email: '',
@@ -20,10 +40,20 @@ const Login = () => {
     const onSubmit = e => {
         e.preventDefault()
 
+        if(email.trim() === '' || password.trim() === '' ){
+            showAlert('All fields are required', 'alert-error')
+        }
+
+        signIn({email, password});
+
+
     }
 
   return (
       <div className='form-user'>
+        { alert ? (
+            <div className={`alert ${alert.category}`}>{alert.msg}</div>
+        ):null}
         <div className='container-form shadow-dark'>
             <h1>Log in</h1>
 

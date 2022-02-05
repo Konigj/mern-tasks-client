@@ -334,7 +334,7 @@ aside  {
 
 .alert {
   position: fixed;
-  top: 0;
+  top: 10px;
   left: 0;
   padding: 1rem 3rem;
   border-radius: 1rem;
@@ -344,12 +344,12 @@ aside  {
   font-size: 2.2rem;
   text-align: center;
   width: 100%;
+
 }
 @media (min-width:768px) {
   .alert {
-      width: auto;
-      top: 30px;
-      right: 10px;
+      width: 450px;
+      top: 50px;
       left: auto;
   }
 }
