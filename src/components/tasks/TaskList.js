@@ -25,7 +25,7 @@ const TaskList = () => {
 
   return (
       <>
-        <h2>Proyecto: {currentProject.name}</h2>
+        <h2>Project: {currentProject.name}</h2>
         
         <ul className='list-tasks'>
             {tasksProject.length === 0
