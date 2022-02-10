@@ -12,7 +12,7 @@ const Bar = () => {
 
   return (
       <header className='app-header'>
-      {user ?<p className='name-user'>Hola <span>{user.name}</span> </p>:null}
+      {user ?<p className='name-user'>Hello <span>{user.name}</span> </p>:null}
         
 
         <nav className='nav-principal'>
